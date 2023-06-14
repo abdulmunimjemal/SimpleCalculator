@@ -1,17 +1,15 @@
 package com.amunim729.calculator;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.util.*;
 
 public class Simple{
 
-    private JFrame frame;
-    private JPanel display;
+
     private JTextArea view;
-    private JPanel bottons;
-    JButton buttons[];
+
+    private JButton[] buttons;
 
     public static void main(String[] args) {
         Simple simple = new Simple();
@@ -19,8 +17,9 @@ public class Simple{
     }
 
     public void displayCalc() {
+        JFrame frame = new JFrame();
+
         // Build the grame
-        frame = new JFrame();
         frame.setSize(330, 500);
         frame.setTitle("Simple Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -30,7 +29,7 @@ public class Simple{
         frame.setBackground(new Color(45, 45, 45));
 
         // build the screen panel
-        display = new JPanel();
+        JPanel display = new JPanel();
         view = new JTextArea();
         view.setCursor(new Cursor(Cursor.TEXT_CURSOR));
         view.setFont(new Font("Agency FB", Font.PLAIN, 25));
@@ -45,7 +44,7 @@ public class Simple{
         frame.getContentPane().add(BorderLayout.NORTH, display);
 
         // build bottons panel
-        bottons = new JPanel();
+        JPanel bottons = new JPanel();
         bottons.setLayout(new GridLayout(5,4));
 
         buttons = new JButton[20];
@@ -92,16 +91,13 @@ public class Simple{
         buttons.setForeground(Color.CYAN);
         buttons.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        if (val.equals("=")) {
-            buttons.addActionListener(event -> calculate());
-        } else if (val.equals("CLS")){
-            buttons.addActionListener(event -> view.setText("0"));
-        } else if (val.equals("OFF") || val.equals("ON")){
-            buttons.addActionListener(event -> switchOff(buttons.getText()));
-        } else if (val.equals("DEL")){
-            buttons.addActionListener(event -> view.setText(view.getText().substring(0,view.getText().length()-1)));
-        } else {
-            buttons.addActionListener((event) -> {
+        switch (val) {
+            case "=" -> buttons.addActionListener(event -> calculate());
+            case "CLS" -> buttons.addActionListener(event -> view.setText("0"));
+            case "OFF", "ON" -> buttons.addActionListener(event -> switchOff(buttons.getText()));
+            case "DEL" ->
+                    buttons.addActionListener(event -> view.setText(view.getText().substring(0, view.getText().length() - 1)));
+            default -> buttons.addActionListener((event) -> {
                 if (view.getText().equals("0")) {
                     view.setText(val);
                 } else {
@@ -156,21 +152,13 @@ public class Simple{
         char operator = operators.pop();
         int rightOperand = operands.pop();
         int leftOperand = operands.pop();
-        int result = 0;
-        switch (operator) {
-            case '+':
-                result = leftOperand + rightOperand;
-                break;
-            case '-':
-                result = leftOperand - rightOperand;
-                break;
-            case '*':
-                result = leftOperand * rightOperand;
-                break;
-            case '/':
-                result = leftOperand / rightOperand;
-                break;
-        }
+        int result = switch (operator) {
+            case '+' -> leftOperand + rightOperand;
+            case '-' -> leftOperand - rightOperand;
+            case '*' -> leftOperand * rightOperand;
+            case '/' -> leftOperand / rightOperand;
+            default -> 0;
+        };
         operands.push(result);
     }
 
