@@ -16,14 +16,14 @@ public class Simple{
         simple.displayCalc();
     }
 
-    public void displayCalc() {
+    private void displayCalc() {
         JFrame frame = new JFrame();
 
         // Build the grame
         frame.setSize(330, 500);
         frame.setTitle("Simple Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon image = new ImageIcon("C:\\Users\\Abdulmunim\\Desktop\\Java\\Calculator\\src\\com\\amunim729\\calculator\\icon.jpg");
+        ImageIcon image = new ImageIcon("icon.jpg");
         frame.setIconImage(image.getImage());
         frame.setResizable(false);
         frame.setBackground(new Color(45, 45, 45));
@@ -96,7 +96,7 @@ public class Simple{
             case "CLS" -> buttons.addActionListener(event -> view.setText("0"));
             case "OFF", "ON" -> buttons.addActionListener(event -> switchOff(buttons.getText()));
             case "DEL" ->
-                    buttons.addActionListener(event -> view.setText(view.getText().substring(0, view.getText().length() - 1)));
+                    buttons.addActionListener((event) -> {String temp = view.getText().substring(0, view.getText().length() - 1); if (temp.length() == 0) {temp = "0";} view.setText(temp);});
             default -> buttons.addActionListener((event) -> {
                 if (view.getText().equals("0")) {
                     view.setText(val);
@@ -108,7 +108,7 @@ public class Simple{
         return buttons;
     }
 
-    public void calculate() {
+    private void calculate() {
         String s = view.getText();
         Map<Character, Integer> operators = new HashMap<>();
         operators.put('+', 1);
@@ -162,7 +162,7 @@ public class Simple{
         operands.push(result);
     }
 
-    public void switchOff(String val) {
+    private void switchOff(String val) {
         if (val.equals("OFF")) {
             for (JButton button : buttons) {
                 if (button.getText().equals("OFF")) {
