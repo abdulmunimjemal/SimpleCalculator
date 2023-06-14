@@ -23,7 +23,7 @@ public class Simple{
         frame.setSize(330, 500);
         frame.setTitle("Simple Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ImageIcon image = new ImageIcon("icon.jpg");
+        ImageIcon image = new ImageIcon("C:\\Users\\Abdulmunim\\Desktop\\Java\\Calculator\\src\\com\\amunim729\\calculator\\icon.jpg");
         frame.setIconImage(image.getImage());
         frame.setResizable(false);
         frame.setBackground(new Color(45, 45, 45));
@@ -163,7 +163,9 @@ public class Simple{
     }
 
     private void switchOff(String val) {
+        view.setText("0");
         if (val.equals("OFF")) {
+            view.setEnabled(false);
             for (JButton button : buttons) {
                 if (button.getText().equals("OFF")) {
                     button.setText("ON");
@@ -172,6 +174,7 @@ public class Simple{
                 }
             }
         } else {
+            view.setEnabled(true);
             for (JButton button : buttons) {
                 if (button.getText().equals("ON")) {
                     button.setText("OFF");
